@@ -9,4 +9,6 @@ app.use(cors());
 
 app.use(pollRouter, choiceRouter);
 
-app.listen(process.env.PORT, () => console.log(`Servidor rodando porta ${process.env.PORT}`));
+const port = process.env.PORT || 5000
+
+app.listen(port, () => console.log(`Servidor rodando porta ${port}`));
