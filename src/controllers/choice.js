@@ -19,7 +19,7 @@ export async function choicePoll(req, res) {
         res.status(201).send("OK");
     } catch (err) {
         console.error(err);
-        res.status(500).send("An error occurred while creating the choice.");
+        res.status(404).send("Erro ao criar escolha");
     }
 }
 
@@ -28,10 +28,10 @@ export async function choicePollId(req, res) {
 
     try {
         const choice = await dataBase.collection("choices").findOne({ _id: ObjectId(choiceId) });
-        if (!choice) return res.status(404).send("The choice does not exist.");
+        if (!choice) return res.status(404).send("A escolha não existe");
 
         const survey = await dataBase.collection("polls").findOne({ _id: ObjectId(choice.pollId) });
-        if (dayjs(survey.expireAt) < dayjs()) return res.status(409).send("The survey has ended.");
+        if (dayjs(survey.expireAt) < dayjs()) return res.status(409).send("Enquete finalizada");
 
         await dataBase.collection("createChoices").insertOne({ createdAt: dayjs().toISOString(), choiceId: ObjectId(choiceId) });
 
