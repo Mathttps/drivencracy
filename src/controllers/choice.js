@@ -2,7 +2,7 @@ import dataBase from "../database/dataBase.js";
 import dayjs from "dayjs";
 import { ObjectId } from "mongodb";
 
-export async function createChoice(req, res) {
+export async function choicePoll(req, res) {
     const choice = req.body;
 
     try {
@@ -23,7 +23,7 @@ export async function createChoice(req, res) {
     }
 }
 
-export async function createChoiceId(req, res) {
+export async function choicePollId(req, res) {
     const choiceId = req.params.id;
 
     try {

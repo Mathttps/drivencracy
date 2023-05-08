@@ -2,7 +2,7 @@ import dataBase from "../database/dataBase.js";
 import dayjs from "dayjs";
 import { ObjectId } from "mongodb";
 
-export async function pollCreateSurvey(req, res) {
+export async function createPoll(req, res) {
     const survey = req.body;
     try {
         const expireAt = survey.expireAt || dayjs().add(1, "month").format("YYYY/MM/DD HH:mm");
@@ -13,12 +13,26 @@ export async function pollCreateSurvey(req, res) {
     }
 }
 
-export async function pollCollectionSurvey(req, res) {
+export async function collectPoll(req, res) {
     const surveys = await dataBase.collection("polls").find().toArray();
     res.send(surveys);
 }
 
-export async function pollIdChoice(req, res) {
+// //  const mostVotedChoice = votes.reduce((max, vote) => max.votes > vote.votes ? max : vote, { title: "", votes: -1 });
+// res.send({
+//     ...survey,
+//     result: mostVotedChoice,
+// });
+// } catch (err) {
+// res.status(500).send(err.message);
+
+export async function choiceIdPoll(req, res) {
+    
+    // const choice = res.locals.choice
+    // const poll = await pollCollection.findOne({ _id: ObjectId(res.locals.choice.pollId) })
+    // const isNewChoice = await choiceCollection.findOne({ title: choice.title })
+    // const now = dayjs()
+
     const pollId = req.params.id;
     try {
         const survey = await dataBase.collection("polls").findOne({ _id: ObjectId(pollId) });
@@ -30,7 +44,7 @@ export async function pollIdChoice(req, res) {
     }
 }
 
-export async function pollIdResult(req, res) {
+export async function resultIdPoll(req, res) {
     const pollId = req.params.id;
     try {
         const survey = await dataBase.collection("polls").findOne({ _id: ObjectId(pollId) });
