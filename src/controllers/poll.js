@@ -4,6 +4,11 @@ import { ObjectId } from "mongodb";
 
 export async function createPoll(req, res) {
     const survey = req.body;
+
+    if(!survey.title) {
+        res.status(422).send("Title não pode ser uma string vazia");
+        return;
+    }
     try {
         const expireAt = survey.expireAt || dayjs().add(1, "month").format("YYYY/MM/DD HH:mm");
         await dataBase.collection("polls").insertOne({ ...survey, expireAt });

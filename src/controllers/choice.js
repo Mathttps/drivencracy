@@ -5,6 +5,10 @@ import { ObjectId } from "mongodb";
 export async function choicePoll(req, res) {
     const choice = req.body;
 
+    if(!choice.title || choice.title.trim() === ""){
+        return res.status(422).send("Title não pode ser uma string vazia");
+        return;
+    }
     try {
         const survey = await dataBase.collection("polls").findOne({ _id: ObjectId(choice.pollId) });
         if (!survey) return res.status(404).send("Uma opção de voto não pode ser inserida sem uma enquete existente.");
